@@ -2,6 +2,15 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { clientCredentials } from './client';
 
+const signIn = () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider);
+};
+
+const signOut = () => {
+  firebase.auth().signOut();
+};
+
 const checkUser = (uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/checkuser`, {
     method: 'POST',
@@ -13,7 +22,7 @@ const checkUser = (uid) => new Promise((resolve, reject) => {
       Accept: 'application/json',
     },
   })
-    .then((resp) => resolve(resp.json()))
+    .then((response) => resolve(response.json()))
     .catch(reject);
 });
 
@@ -26,21 +35,12 @@ const registerUser = (userInfo) => new Promise((resolve, reject) => {
       Accept: 'application/json',
     },
   })
-    .then((resp) => resolve(resp.json()))
+    .then((response) => resolve(response.json()))
     .catch(reject);
 });
 
-const signIn = () => {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider);
-};
-
-const signOut = () => {
-  firebase.auth().signOut();
-};
-
 export {
-  signIn, //
+  signIn,
   signOut,
   checkUser,
   registerUser,
